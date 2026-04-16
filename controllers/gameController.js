@@ -1,48 +1,43 @@
 const Game = require('../models/Game');
+const Publisher = require('../models/Publisher');
 
-// Listar todos os jogos
 exports.getAllGames = async (req, res, next) => {
     try {
-        const games = await Game.find();
-        res.status(200).json(games);
-    } catch (err) {
-        next(err); // Passa o erro para o middleware de erro
-    }
+        const games = await Game.findAll({
+            include: [Publisher] // O Sequelize faz o JOIN automaticamente aqui
+        });
+        res.json(games);
+    } catch (err) { next(err); }
 };
 
-// Criar um novo jogo
+// Criar novo jogo
 exports.createGame = async (req, res, next) => {
     try {
-        const game = new Game(req.body);
-        await game.save();
+        const game = await Game.create(req.body);
         res.status(201).json(game);
     } catch (err) {
         next(err);
     }
 };
 
+// Atualizar jogo
 exports.updateGame = async (req, res, next) => {
     try {
-        // { new: true } retorna o documento atualizado
-        // { runValidators: true } garante que as validações do Model sejam aplicadas no update
-        const game = await Game.findByIdAndUpdate(req.params.id, req.body, { 
-            new: true, 
-            runValidators: true 
-        });
-        
-        if (!game) return res.status(404).json({ message: "Jogo não encontrado" });
+        const [updated] = await Game.update(req.body, { where: { id: req.params.id } });
+        if (!updated) return res.status(404).json({ message: "Jogo não encontrado" });
+        const game = await Game.findByPk(req.params.id);
         res.status(200).json(game);
     } catch (err) {
-        next(err); // Captura erro de validação (ex: ano inválido)
+        next(err);
     }
 };
 
-// DELETE: Remove um jogo pelo ID
+// Deletar jogo
 exports.deleteGame = async (req, res, next) => {
     try {
-        const game = await Game.findByIdAndDelete(req.params.id);
-        if (!game) return res.status(404).json({ message: "Jogo não encontrado" });
-        res.status(204).send(); // 204 indica sucesso e sem conteúdo
+        const deleted = await Game.destroy({ where: { id: req.params.id } });
+        if (!deleted) return res.status(404).json({ message: "Jogo não encontrado" });
+        res.status(204).send();
     } catch (err) {
         next(err);
     }

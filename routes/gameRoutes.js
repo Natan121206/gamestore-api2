@@ -1,14 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const gameController = require('../controllers/gameController');
+const gameController = require('../controllers/gameController'); 
+const validateGame = require('../middlewares/validateGame');
+const auth = require('../middlewares/auth');
 
-router.post('/', validateGame, gameController.createGame);
-router.put('/:id', validateGame, gameController.updateGame);
-
-// Definindo as rotas e associando aos métodos do controller
-router.get('/', gameController.getAllGames);
-router.post('/', gameController.createGame);
-router.put('/:id', gameController.updateGame);
-router.delete('/:id', gameController.deleteGame);
+router.get('/', gameController.getAllGames); 
+router.post('/', auth, validateGame, gameController.createGame);
+router.put('/:id', auth, validateGame, gameController.updateGame);
+router.delete('/:id', auth, gameController.deleteGame);
 
 module.exports = router;

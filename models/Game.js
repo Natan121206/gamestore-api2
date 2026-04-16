@@ -1,10 +1,15 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+const Publisher = require('./Publisher'); // Importe o novo modelo
 
-const gameSchema = new mongoose.Schema({
-    titulo: { type: String, required: true },
-    desenvolvedora: { type: String, required: true },
-    anoLancamento: { type: Number, required: true },
-    genero: { type: String, required: true }
+const Game = sequelize.define('Game', {
+    titulo: { type: DataTypes.STRING, allowNull: false },
+    anoLancamento: { type: DataTypes.INTEGER, allowNull: false },
+    genero: { type: DataTypes.STRING, allowNull: false }
 });
 
-module.exports = mongoose.model('Game', gameSchema);
+// Relacionamento: Um Jogo pertence a uma Editora
+Game.belongsTo(Publisher, { foreignKey: 'publisherId' });
+Publisher.hasMany(Game, { foreignKey: 'publisherId' });
+
+module.exports = Game;

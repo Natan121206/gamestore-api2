@@ -1,0 +1,157 @@
+{
+  "info": {
+    "_postman_id": "a76b50a5-1d33-43a4-808f-10a4fb3e946d",
+    "name": "GameStore",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "32318477"
+  },
+  "item": [
+    {
+      "name": "GET Games",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code é 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "pm.test(\"Retorna um array de jogos\", function () {\r",
+              "    pm.expect(pm.response.json()).to.be.an('array');\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/games",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "games"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST Games",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code é 201 (Criado)\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"titulo\": \"Cyberpunk 2077\", \"desenvolvedora\": \"CD Projekt Red\", \"anoLancamento\": 2020, \"genero\": \"RPG\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/games",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "games"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Games",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code é 204 (No Content)\", function () {\r",
+              "    pm.response.to.have.status(204);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/games/id:69dd3b4620308e89a6b29f9a",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "games",
+            "id:69dd3b4620308e89a6b29f9a"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT Games",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"titulo\": \"Cyberpunk 2077\", \"desenvolvedora\": \"CD Projekt Red\", \"anoLancamento\": 2020, \"genero\": \"RPG\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/games",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "games"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
